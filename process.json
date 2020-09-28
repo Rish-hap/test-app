@@ -1,0 +1,17 @@
+{
+  "apps": [
+    {
+      "name": "betting-app",
+      "script": "npm",
+      "args": "start",
+      "env": {
+        "PORT": 7070,
+        "NODE_ENV": "production"
+      },
+      "env_production": {
+        "PORT": 7070,
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
