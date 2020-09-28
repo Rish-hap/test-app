@@ -14,7 +14,7 @@ React.useEffect(()=>{
             <div className="preloader-inner position-relative">
                 <div className="preloader-circle"></div>
                 <div className="preloader-img pere-text">
-                    <img src="assets/img/hero/logo-2.png" alt=""/>
+                   
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@ React.useEffect(()=>{
                     <div className="menu-wrapper d-flex align-items-center justify-content-between">
                         {/* <!-- Logo --> */}
                         <div className="logo">
-                            <a><img src="assets/img/hero/logo-2.png" alt=""/></a>
+                            {/* <a><img src="assets/img/hero/logo-2.png" alt=""/></a> */}
                         </div>
                         {/* <!-- Main-menu --> */}
                         <div className="main-menu f-right d-none d-lg-block">
@@ -115,7 +115,7 @@ React.useEffect(()=>{
                             <div className="topic-content-box">
                                 <div className="topic-content">
                                     <h3>KKR Vs RR</h3>
-                                    <p>Match Will Start In <br/> 15:00 Minutes</p>
+                                    <p>Match Will Start at <br/> 7:30 PM today</p>
                                     <a onClick={()=>set_show_bets(true)} className="border-btn">View Bets</a>
                                 </div>
                             </div>
@@ -477,8 +477,8 @@ React.useEffect(()=>{
                         </div>
                         <div className="features-caption">
                             <h3>Email</h3>
-                            <p>crypticOcean@gmail.com</p>
-                            <p>contact56@crypticOcean.com</p>
+                            <p>asda@gmail.com</p>
+                            <p>contact56@sdasd.com</p>
                         </div>
                     </div>
                 </div>
@@ -497,7 +497,7 @@ React.useEffect(()=>{
                         <div className="single-footer-caption mb-50 text-center">
                             {/* <!-- logo --> */}
                             <div className="footer-logo wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
-                                <a href="index.html"><img src="assets/img/hero/logo-2.png" alt=""/></a>
+                               
                             </div>
                             {/* <!-- Menu -->
                             <!-- Header Start --> */}
@@ -536,10 +536,9 @@ React.useEffect(()=>{
                 <div className="row d-flex align-items-center">
                     <div className="col-lg-12">
                         <div className="footer-copy-right text-center">
-                            {/* <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> */}
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i className="fa fa-heart" aria-hidden="true"></i> by dev_rish
-                              {/* Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i className="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> */}
-                              {/* <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p> */}
+
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i className="fa fa-heart" aria-hidden="true"></i> by dev_boom
+
                           </div>
                       </div>
                   </div>

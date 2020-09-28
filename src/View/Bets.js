@@ -1,68 +1,95 @@
 import React from "react"
 import getWeb3 from '../utils.js';
 import contract_abi from "../abi.js"
-import web3 from "web3"
+import Web3 from "web3"
+const contractDeployedNetwork = "Ropsten"
 
 
 const Bets  = () => {
-    const [state, set_state] = React.useState({
-            web3 : '',
-            address: '',
-            enable:false
-    })
 
-    const [contract, set_contract] = React.useState(false)
+    const [metamaskContextValue, setMetamaskContextValue] = React.useState({})
+    const [flag, set_flag] = React.useState(false)
 
-    const enable = async () => {
-        try {
-            await window.ethereum.enable();
-            console.log(state,"state in enable")
-          
-            // set_contract(bet_contract)
-            // set_state({...state, enable:true})
-        } catch (error) {
-            console.log(error)
-            window.alert(error.message)
-        }
+    const resetApp = (note) => {
+        window.alert(note)
+        window.location.reload()
     }
-React.useEffect(  ()=> {
-    getWeb3.then(  async ( results )=> {
-        console.log(results,"results")
-        /*After getting web3, we save the informations of the web3 user by
-        editing the state variables of the component */
-        results.web3.eth.getAccounts( async (error,acc) => {
-          //this.setState is used to edit the state variables
-         
-          set_state({
-            address: acc[0],
-            web3: results.web3,
-            contract:results.contract
+    const loadBlockChain = async () => {
+        const error =
+          typeof window !== 'undefined' && Boolean(window.ethereum || window.web3);
+    
+        error ? console.log('NO ERROR') : resetApp('NOT_INSTALLED');
+    
+        try {
+          window.web3 = new window.Web3(window.ethereum);
+          await window.ethereum.enable();
+          const web3 = await new Web3(window.web3.currentProvider);
+          const network = await web3.eth.net.getNetworkType();
+          
+          window.ethereum.on('accountsChanged', function (accounts) {
+            // Time to reload your interface with accounts[0]!
+            console.log("Account Change Event")
+            window.location.reload()
           })
-        //   enable()
-        });
-      }).catch( () => {
-        //If no web3 provider was found, log it in the console
-        console.log('Error finding web3.')
-      })
+          
+          window.ethereum.on('networkChanged', function (networkId) {
+            // Time to reload your interface with the new networkId
+            console.log("Network Change Event")
+            window.location.reload()
+          })
+
+
+          if (network === contractDeployedNetwork.toLowerCase()) {
+            console.log('web3: ', web3);
+            const accounts = await web3.eth.getAccounts();
+            const bet_contract = new web3.eth.Contract(
+                contract_abi,
+              '0x97b6ce9801fc37b823a1abf94f92305ba13a5787',
+            )
+    
+            setMetamaskContextValue({
+              ethereumAddress: accounts[0],
+              contract: bet_contract,
+              web3Instance: web3,
+            });
+
+            set_flag(true)
+          } else {
+            set_flag(false)
+            resetApp(
+              `Please switch your metamask network to ${contractDeployedNetwork.toUpperCase()}`,
+            );
+          }
+        } catch (err) {
+          console.log('error catch: ', err);
+          set_flag(false)
+          resetApp(err.message)
+        }
+      };
+
+React.useEffect(  ()=> {
+    loadBlockChain()
 }, [])
 
 const toss_bet = async (val) => {
-    const data = toss_bet_fun(val)
-    console.log(data,"data")
-    if(data){
-
+    if(!!flag){
+        const data = toss_bet_fun(val)
+        console.log(data,"daata")
     }else{
-
+       window.alert('Please connect to metamask account to continue')
     }
 }
 
  const toss_bet_fun= async (val) => {
     try {
-      const result = await state.contract.methods.predictTossResults(val).call()
+      const result = await metamaskContextValue.contract.methods.predictTossResults(val).send({from:metamaskContextValue.ethereumAddress, gas:140000})
         .catch((e) => {
           window.alert(e.message)
         })
       console.log(result, "");
+      if(!!result){
+            window.alert("Bet succesfully placed")
+      }
       return result;
     } catch (err) {
       console.log(" ", err);
@@ -70,10 +97,31 @@ const toss_bet = async (val) => {
     }
   }
 const match_bet = (val) => {
-    state.contract.methods.predictMatchResults().call(val);
+    if(!!flag){
+        const data = match_bet_fun(val)
+        console.log(data,"daata")
+    }else{
+       window.alert('Please connect to metamask account to continue')
+    }
 }
-console.log("contract",contract)
-console.log("state", state)
+const match_bet_fun = async (val) => {
+    try {
+        const result = await metamaskContextValue.contract.methods.predictMatchResults(val).send({from:metamaskContextValue.ethereumAddress, gas:140000}).then(()=>{
+            window.alert("Bet succesfully placed")
+        })
+          .catch((e) => {
+            window.alert(e.message)
+          })
+        console.log(result, "");
+        if(!!result){
+              window.alert("Bet succesfully placed")
+        }
+        return result;
+      } catch (err) {
+        console.log(" ", err);
+        window.alert(err.message)
+      }
+}
     return (<React.Fragment>
                <section className="pricing-area section-padding40 fix">
         <div className="container">

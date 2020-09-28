@@ -20,11 +20,13 @@ results = {
       window.ethereum.on('accountsChanged', function (accounts) {
         // Time to reload your interface with accounts[0]!
         console.log("Account Change Event")
+        window.location.reload()
       })
       
       window.ethereum.on('networkChanged', function (networkId) {
         // Time to reload your interface with the new networkId
         console.log("Network Change Event")
+        window.location.reload()
       })
       resolve(results)
     } else {
